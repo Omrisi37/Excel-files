@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 import io
 from datetime import datetime
+from PIL import Image  # Import the Image module
 
 def main():
     # Initialize session state
@@ -10,10 +11,24 @@ def main():
         st.session_state.page = "welcome"
 
     # ==========================================================
+    # Load Images
+    # ==========================================================
+    try:
+        lab_image = Image.open("lab.jepg") 
+    except FileNotFoundError:
+        st.warning("Please upload your Lab Image file.")
+        lab_image = None  # Setting to none allows app to run despite missing image
+
+    # ==========================================================
     # Functions to switch between pages
     # ==========================================================
     def show_welcome_page():
         st.title("Welcome to the Lab Data Collection App")
+
+        # Display image if available
+        if lab_image:
+            st.image(lab_image, caption="Lab Equipment", width=400)  # Adjust width as needed
+
         st.write("Choose a protocol to begin:")
 
         # Button to Experiments Type 1
