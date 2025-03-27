@@ -24,6 +24,26 @@ def main():
     else:
         st.warning("Image not found in the repository.")
         lab_image = None
+
+    
+    # ==========================================================
+    # CSS for Background Image
+    # ==========================================================
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image: url("https://github.com/EliavLavi/excel-files/blob/main/lab_equipment.jpg?raw=true");
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            opacity: 0.4; /* Adjust this value for the shade */
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
     # ==========================================================
     # Functions to switch between pages
     # ==========================================================
