@@ -29,6 +29,7 @@ def main():
     # ==========================================================
     def show_welcome_page():
         st.title("Welcome to the Lab Data Collection App")
+        st.markdown("This is an app to help us collect our data !")
 
         # Display image if available
         if lab_image:
