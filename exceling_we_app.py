@@ -25,7 +25,6 @@ def main():
         st.warning("Image not found in the repository.")
         lab_image = None
 
-    
     # ==========================================================
     # CSS for Background Image
     # ==========================================================
@@ -37,7 +36,17 @@ def main():
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
-            opacity: 0.4; /* Adjust this value for the shade */
+        }}
+
+        .stApp::before {{
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3); /* Adjust the last value (alpha) for the shade */
+            z-index: -1; /* Place the shade behind the content */
         }}
         </style>
         """,
@@ -49,7 +58,7 @@ def main():
     # ==========================================================
     def show_welcome_page():
         st.title("Welcome to the Lab Data Collection App")
-        st.markdown("This is an app to help us collect our data !")
+        st.markdown("A tool for streamlined data entry and management in laboratory experiments.")
 
         # Display image if available
         if lab_image:
