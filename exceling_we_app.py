@@ -13,22 +13,27 @@ def main():
     # ==========================================================
     # Load Images
     # ==========================================================
-    try:
-        lab_image = Image.open("lab.jpg") 
-    except FileNotFoundError:
-        st.warning("Please upload your Lab Image file.")
-        lab_image = None  # Setting to none allows app to run despite missing image
-
+     image_path = "lab_equipment.jpg"  # Or "images/lab_equipment.jpg" if it's in a subdirectory
+    if os.path.exists(image_path):  # Check if the image exists
+        try:
+            lab_image = Image.open(image_path)
+        except Exception as e:
+            st.warning(f"Error loading image from repo: {e}")
+            lab_image = None
+    else:
+        st.warning("Image not found in the repository.")
+        lab_image = None
     # ==========================================================
     # Functions to switch between pages
     # ==========================================================
     def show_welcome_page():
         st.title("Welcome to the Lab Data Collection App")
 
-        # Display image if available
+       # Display image if available
         if lab_image:
             st.image(lab_image, caption="Lab Equipment", width=400)  # Adjust width as needed
-
+        else:
+            st.write("Lab Image Not Available.")
         st.write("Choose a protocol to begin:")
 
         # Button to Experiments Type 1
