@@ -6,13 +6,17 @@ from datetime import datetime
 def main():
     st.title("Lab Experiment Data Collection")
 
-    # Function to upload and process Excel files
-    def upload_excel(section_name, section_title):
+    # Function to upload and process files
+    def upload_file(section_name, section_title):
         st.subheader(section_title)
-        uploaded_file = st.file_uploader(f"Upload {section_title} (Excel)", type=["xlsx", "xls"])
+        uploaded_file = st.file_uploader(f"Upload {section_title} (Excel/CSV)", type=["xlsx", "xls", "csv"])
         if uploaded_file:
             try:
-                df = pd.read_excel(uploaded_file)
+                file_extension = uploaded_file.name.split('.')[-1].lower()
+                if file_extension == 'csv':
+                    df = pd.read_csv(uploaded_file)
+                else:
+                    df = pd.read_excel(uploaded_file)
                 return df
             except Exception as e:
                 st.error(f"Error reading {section_title}: {e}")
@@ -20,22 +24,22 @@ def main():
         return None
 
     # 1. Procedure - Settings
-    settings_df = upload_excel("Settings", "Procedure - Settings")
+    settings_df = upload_file("Settings", "Procedure - Settings")
 
     # 2. Procedure - Physical Treatments
-    physical_treatments_df = upload_excel("Physical Treatments", "Procedure - Physical Treatments")
+    physical_treatments_df = upload_file("Physical Treatments", "Procedure - Physical Treatments")
 
     # 3. Black box ? + Procedure - Enz Hydro
-    enz_hydro_df = upload_excel("Enz Hydro", "Black box ? + Procedure - Enz Hydro")
+    enz_hydro_df = upload_file("Enz Hydro", "Black box ? + Procedure - Enz Hydro")
 
     # 4. Procedure - Enz Cross
-    enz_cross_df = upload_excel("Enz Cross", "Procedure - Enz Cross")
+    enz_cross_df = upload_file("Enz Cross", "Procedure - Enz Cross")
 
     # 5. Gel / Drying process
-    gel_drying_df = upload_excel("Gel Drying", "Gel / Drying process")
+    gel_drying_df = upload_file("Gel Drying", "Gel / Drying process")
 
     # 6. Gel functionality
-    gel_functionality_df = upload_excel("Gel Functionality", "Gel functionality")
+    gel_functionality_df = upload_file("Gel Functionality", "Gel functionality")
 
     # Merge and Download Button
     st.subheader("Merge and Download")
