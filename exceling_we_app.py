@@ -13,7 +13,7 @@ def main():
     # ==========================================================
     # Load Images
     # ==========================================================
-     image_path = "lab_equipment.jpg"  # Or "images/lab_equipment.jpg" if it's in a subdirectory
+     image_path = "lab.jpg"  # Or "images/lab_equipment.jpg" if it's in a subdirectory
     if os.path.exists(image_path):  # Check if the image exists
         try:
             lab_image = Image.open(image_path)
