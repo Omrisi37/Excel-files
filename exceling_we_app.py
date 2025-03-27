@@ -16,12 +16,20 @@ def main():
         st.title("Welcome to the Lab Data Collection App")
         st.write("Choose a protocol to begin:")
 
-        if st.button("Experiments Type 1"):
-            st.session_state.page = "experiments_type_1"
-            st.rerun()
+        # Button to Experiments Type 1
+        col1, col2, col3 = st.columns([1, 3, 1])  # Adjust column widths for centering
+        with col2:
+            if st.button("Experiments Type 1", use_container_width=True):
+                st.session_state.page = "experiments_type_1"
+                st.rerun()
 
     def show_experiments_type_1():
         st.title("Experiments Type 1 Data Collection")
+
+        # Button to go back to welcome page
+        if st.button("Back to Welcome Page"):
+            st.session_state.page = "welcome"
+            st.rerun()
 
         # Initialize session state
         if 'all_data' not in st.session_state:
@@ -32,10 +40,10 @@ def main():
         # ==========================================================
         with st.form(key='experiment_form'):
             # 1. Procedure - Settings
-            st.subheader("1. Procedure - Settings")
+            st.subheader("Procedure - Settings")
             col1, col2, col3, col4, col5 = st.columns(5)
             with col1:
-                procedure_num = st.text_input("#Num", key="procedure_num")
+                procedure_num = st.text_input("#Num", placeholder="1-Infinity", key="procedure_num")
             with col2:
                 procedure_date = st.date_input("Date", value=datetime.now(), key="procedure_date")
             with col3:
@@ -46,81 +54,84 @@ def main():
                 protein_concentration = st.text_input("Concentration [wt/wt%]", key="protein_concentration")
 
             # 2. Procedure - Physical Treatments
-            st.subheader("2. Procedure - Physical Treatments")
+            st.subheader("Procedure - Physical Treatments")
             col1, col2, col3, col4 = st.columns(4)
             with col1:
-                right_valve = st.text_input("Right valve [bar]", key="right_valve")
+                right_valve = st.text_input("Right valve [bar]", placeholder="Number (If used) or N/A", key="right_valve")
             with col2:
-                left_valve = st.text_input("Left valve 2 [bar]", key="left_valve")
+                left_valve = st.text_input("Left valve 2 [bar]", placeholder="Number (If used) or N/A", key="left_valve")
             with col3:
-                temp_after_HPH = st.text_input("Temp after HPH [°C]", key="temp_after_HPH")
+                temp_after_HPH = st.text_input("Temp after HPH [°C]", placeholder="Number (If used) or N/A", key="temp_after_HPH")
             with col4:
-                HPH_fraction = st.text_input("HPH fraction [%]", key="HPH_fraction")
+                HPH_fraction = st.text_input("HPH fraction [%]", placeholder="Number (If used) or N/A", key="HPH_fraction")
 
             col1, col2 = st.columns(2)
             with col1:
-                initial_water_temp = st.text_input("Initial water temp", key="initial_water_temp")
+                initial_water_temp = st.text_input("Initial water temp", placeholder="Number (If used) or N/A", key="initial_water_temp")
             with col2:
-                pH = st.text_input("pH", key="pH")
+                acid_name = st.text_input("Acid name", placeholder="Name (If used) or N/A", key="acid_name")
 
             col1, col2 = st.columns(2)
             with col1:
-                mixing_temp = st.text_input("Mixing temp[°C]", key="mixing_temp")
+                mixing_temp = st.text_input("Mixing temp[°C]", placeholder="Number (If used) or N/A", key="mixing_temp")
             with col2:
-                mixing_time = st.text_input("Mixing time", key="mixing_time")
-            heat_treatment_fraction = st.text_input("Heat treatment fraction[%]", key="heat_treatment_fraction")
+                mixing_time = st.text_input("Mixing time", placeholder="Number (If used) or N/A", key="mixing_time")
+            heat_treatment_fraction = st.text_input("Heat treatment fraction[%]", placeholder="Number (If used) or N/A", key="heat_treatment_fraction")
+            ph = st.text_input("pH", placeholder="Number (If used) or N/A", key="ph")
 
             # 3. Black box ? + Procedure - Enz Hydro
-            st.subheader("3. Black box ? + Procedure - Enz Hydro")
+            st.subheader("Black box ? + Procedure - Enzymes Hydrolyzing")
             col1, col2 = st.columns(2)
             with col1:
                 enz_YN = st.selectbox("Y/N", ["", "Yes", "No"], index=0, key="enz_YN")
             with col2:
-                enz_num = st.text_input("Enz num.", key="enz_num")
+                enz_num = st.text_input("Enz num.", placeholder="Number (If used) or N/A", key="enz_num")
 
             enz_name = st.selectbox("Name", ["", "Enzyme A", "Enzyme B"], index=0, key="enz_name")
 
             col1, col2 = st.columns(2)
             with col1:
-                enz_concentration = st.text_input("Concentration [%]", key="enz_concentration")
+                enz_concentration = st.text_input("Concentration [%]", placeholder="Number (If used) or N/A", key="enz_concentration")
             with col2:
-                enz_added = st.text_input("Added enz [g]", key="enz_added")
+                enz_added = st.text_input("Added enz [g]", placeholder="Number (If used) or N/A", key="enz_added")
 
             col1, col2 = st.columns(2)
             with col1:
-                enz_addition_temp = st.text_input("Addition temp [°C]", key="enz_addition_temp")
+                enz_addition_temp = st.text_input("Addition temp [°C]", placeholder="Number (If used) or N/A", key="enz_addition_temp")
             with col2:
-                enz_ino_time = st.text_input("Ino. time [min]", key="enz_ino_time")
+                enz_ino_time = st.text_input("Ino. time [min]", placeholder="Number (If used) or N/A", key="enz_ino_time")
 
             col1, col2 = st.columns(2)
             with col1:
-                enz_ino_temp = st.text_input("Ino. temp. [°C]", key="enz_ino_temp")
+                enz_ino_temp = st.text_input("Ino. temp. [°C]", placeholder="Number (If used) or N/A", key="enz_ino_temp")
             with col2:
-                enz_stirring = st.text_input("stirring [RPM]", key="enz_stirring")
-            black_box_protein_fraction = st.text_input("black box protein fraction[%]", key="black_box_protein_fraction")
+                enz_stirring = st.text_input("stirring [RPM]", placeholder="Number (If used) or N/A", key="enz_stirring")
+            black_box_protein_fraction = st.text_input("black box protein fraction[%]", placeholder="Number (If used) or N/A", key="black_box_protein_fraction")
 
             # 4. Procedure - Enz Cross
-            st.subheader("4. Procedure - Enz Cross")
-            cross_enz_name = st.selectbox("Name", ["", "Crosslinker X", "Crosslinker Y"], index = 0, key="cross_enz_name")
+            st.subheader("Procedure - Enzymes Crosslinking")
+            col1, col2 = st.columns(2)
+            with col1:
+                cross_enz_name = st.selectbox("Name", ["", "Crosslinker X", "Crosslinker Y"], index = 0, key="cross_enz_name")
 
             col1, col2 = st.columns(2)
             with col1:
-                cross_enz_num = st.text_input("Enz num.", key="cross_enz_num")
+                cross_enz_num = st.text_input("Enz num.", placeholder="Number (If used) or N/A", key="cross_enz_num")
             with col2:
-                cross_enz_concentration = st.text_input("Concentration [%]", key="cross_enz_concentration")
+                cross_enz_concentration = st.text_input("Concentration [%]", placeholder="Number (If used) or N/A", key="cross_enz_concentration")
 
             col1, col2 = st.columns(2)
             with col1:
-                cross_enz_added = st.text_input("Added enz [g]", key="cross_enz_added")
+                cross_enz_added = st.text_input("Added enz [g]", placeholder="Number (If used) or N/A", key="cross_enz_added")
             with col2:
-                cross_enz_addition_temp = st.text_input("Addition temp [°C]", key="cross_enz_addition_temp")
+                cross_enz_addition_temp = st.text_input("Addition temp [°C]", placeholder="Number (If used) or N/A", key="cross_enz_addition_temp")
 
             col1, col2 = st.columns(2)
             with col1:
-                cross_enz_ino_time = st.text_input("Ino. time [min]", key="cross_enz_ino_time")
+                cross_enz_ino_time = st.text_input("Ino. time [min]", placeholder="Number (If used) or N/A", key="cross_enz_ino_time")
             with col2:
-                cross_enz_ino_temp = st.text_input("Ino. temp. [°C]", key="cross_enz_ino_temp")
-            cross_enz_stirring = st.text_input("stirring [RPM]", key="cross_enz_stirring")
+                cross_enz_ino_temp = st.text_input("Ino. temp. [°C]", placeholder="Number (If used) or N/A", key="cross_enz_ino_temp")
+            cross_enz_stirring = st.text_input("stirring [RPM]", placeholder="Number (If used) or N/A", key="cross_enz_stirring")
 
             submit_button = st.form_submit_button(label='Save Data')
 
@@ -145,7 +156,7 @@ def main():
                     "Mixing temp[°C]": mixing_temp,
                     "Mixing time": mixing_time,
                     "Heat treatment fraction[%]": heat_treatment_fraction,
-                    "pH": pH,
+                    "pH": ph,
                 },
                 'Black box ? + Procedure - Enz Hydro': {
                     "Y/N": enz_YN,
