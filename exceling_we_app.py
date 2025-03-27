@@ -14,7 +14,7 @@ def main():
     # Load Images
     # ==========================================================
     try:
-        lab_image = Image.open("lab.jepg") 
+        lab_image = Image.open("lab.jpg") 
     except FileNotFoundError:
         st.warning("Please upload your Lab Image file.")
         lab_image = None  # Setting to none allows app to run despite missing image
