@@ -2,6 +2,7 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
+import io
 
 def main():
     st.title("Lab Experiment Data Collection")
@@ -62,12 +63,21 @@ def main():
                 combined_df = pd.concat(valid_dfs.values(), ignore_index=True)
                 combined_df.insert(0, 'Row Index', combined_df.index)
 
+                # Create an in-memory buffer
+                excel_buffer = io.BytesIO()
+
+                # Use Pandas Excel writer and save to buffer
+                with pd.ExcelWriter(excel_buffer, engine='openpyxl') as writer:
+                    combined_df.to_excel(writer, sheet_name='Combined Data', index=False)
+
+                excel_buffer.seek(0)  # Reset buffer to the beginning
+
                 # Download Button
                 st.download_button(
                     label="Download Combined Excel File",
-                    data=combined_df.to_excel(index=False, engine='openpyxl').encode('utf-8'),
+                    data=excel_buffer,
                     file_name="combined_lab_data.xlsx",
-                    mime="application/vnd.ms-excel"
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 )
                 st.success("Excel file created, download will start automatically.")
 
