@@ -3,7 +3,8 @@ import streamlit as st
 import pandas as pd
 import io
 from datetime import datetime
-from PIL import Image  # Import the Image module
+from PIL import Image
+import os  # Import os module
 
 def main():
     # Initialize session state
@@ -13,7 +14,7 @@ def main():
     # ==========================================================
     # Load Images
     # ==========================================================
-     image_path = "lab.jpg"  # Or "images/lab_equipment.jpg" if it's in a subdirectory
+    image_path = "lab.jpg"  # Or "images/lab_equipment.jpg" if it's in a subdirectory
     if os.path.exists(image_path):  # Check if the image exists
         try:
             lab_image = Image.open(image_path)
@@ -29,7 +30,7 @@ def main():
     def show_welcome_page():
         st.title("Welcome to the Lab Data Collection App")
 
-       # Display image if available
+        # Display image if available
         if lab_image:
             st.image(lab_image, caption="Lab Equipment", width=400)  # Adjust width as needed
         else:
