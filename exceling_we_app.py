@@ -25,20 +25,31 @@ def main():
         st.warning("Image not found in the repository.")
         lab_image = None
 
-    # ==========================================================
+   # ==========================================================
     # CSS for Background Image
     # ==========================================================
     st.markdown(
         f"""
         <style>
-        .stApp {{
+        body {{
             background-image: url("https://github.com/EliavLavi/excel-files/blob/main/lab_equipment.jpg?raw=true");
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
+            margin: 0; /* Reset default body margin */
+            height: 100vh; /* Ensure full height */
+            overflow: hidden; /* Hide scrollbars */
         }}
 
-        .stApp::before {{
+        .app-content {{
+            position: relative; /* Required for z-index */
+            z-index: 1; /* Place content above the shade */
+            padding: 20px; /* Add padding */
+            background: rgba(255, 255, 255, 0.7); /* Semi-transparent white background for content */
+            border-radius: 10px; /* Optional: round corners */
+        }}
+
+        body::before {{
             content: "";
             position: fixed;
             top: 0;
@@ -52,7 +63,6 @@ def main():
         """,
         unsafe_allow_html=True
     )
-
     # ==========================================================
     # Functions to switch between pages
     # ==========================================================
