@@ -14,6 +14,7 @@ if 'current_user' not in st.session_state:
 if 'experiments' not in st.session_state:
     st.session_state.experiments = []  # Stores all experiment rows
 
+
 def login_page():
     """Login page for user authentication."""
     st.title("Welcome to the Lab Data Collection App")
@@ -26,14 +27,15 @@ def login_page():
                 # Initialize user data if first login
                 st.session_state.user_data[email] = {"experiments": []}
             st.success(f"Welcome back, {email}!")
-            st.experimental_rerun()
+            st.rerun()  # Updated method to rerun the app
         else:
             st.error("Please enter a valid email address.")
+
 
 def welcome_page():
     """Welcome page after login."""
     st.title(f"Welcome, {st.session_state.current_user}")
-    
+
     # Display saved experiments
     if st.session_state.user_data[st.session_state.current_user]["experiments"]:
         st.subheader("Your Saved Experiments")
@@ -43,21 +45,22 @@ def welcome_page():
                 # Load experiment into session state for editing
                 st.session_state.experiments = exp["rows"]
                 experiment_form(exp_name)
-    
+
     # Button to start a new experiment
     if st.button("Start New Experiment"):
         experiment_form()
+
 
 def experiment_form(exp_name=None):
     """Form to fill experiment details."""
     if exp_name is None:
         exp_name = st.text_input("Enter Experiment Name", key="experiment_name")
         user_name = st.text_input("Enter Your Name", key="user_name")
-    
+
     # Add rows dynamically
     if "rows" not in st.session_state:
         st.session_state.rows = []
-    
+
     with st.form(key="experiment_form"):
         # Add input fields for a single row
         col1, col2, col3, col4, col5 = st.columns(5)
@@ -71,7 +74,7 @@ def experiment_form(exp_name=None):
             protein_type = col4.selectbox("Protein type", ["Type A", "Type B", "Type C"])
         with col5:
             protein_concentration = col5.text_input("Concentration [wt/wt%]")
-        
+
         if st.form_submit_button(label="Save Row"):
             row_data = {
                 "#Num": procedure_num,
@@ -101,16 +104,16 @@ def experiment_form(exp_name=None):
                 st.success(f"Experiment '{exp_name}' saved successfully!")
                 # Reset rows for next experiment
                 del st.session_state.rows
-    
+
     # Export to Excel
     if df is not None and not df.empty and exp_name and user_name and st.button("Export to Excel"):
         excel_buffer = io.BytesIO()
         with pd.ExcelWriter(excel_buffer, engine='openpyxl') as writer:
             df.to_excel(writer, index=False, sheet_name=exp_name)
-        
+
         excel_buffer.seek(0)
         file_name = f"{exp_name.replace(' ', '_')}_data.xlsx"
-        
+
         # Download button for Excel file
         st.download_button(
             label=f"Download {file_name}",
@@ -118,6 +121,7 @@ def experiment_form(exp_name=None):
             file_name=file_name,
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
+
 
 # Main app logic
 if not st.session_state.current_user:
