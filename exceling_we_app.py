@@ -60,6 +60,9 @@ def welcome_page():
 def experiment_form():
     """Form to collect experiment details."""
     st.title("Experiment Type 1 Data Collection")
+    if st.button("Back to Home", key="back_home"):
+        st.session_state.page = "welcome"
+        st.rerun()
 
     experiment_name = st.text_input("Experiment Name", value=st.session_state.get("experiment_name", ""))
     st.session_state.experiment_name = experiment_name
@@ -155,41 +158,41 @@ def experiment_form():
 
         if st.form_submit_button("Save Form"):
             form_data = {
-                "Procedure - Settings - #Num": procedure_num,
-                "Procedure - Settings - Date": procedure_date.strftime("%Y-%m-%d"),
-                "Procedure - Settings - Labeling": procedure_labeling,
-                "Procedure - Settings - Protein type": protein_type,
-                "Procedure - Settings - Concentration [wt/wt%]": protein_concentration,
+                "#Num": procedure_num,
+                "Date": procedure_date.strftime("%Y-%m-%d"),
+                "Labeling": procedure_labeling,
+                "Protein type": protein_type,
+                "Concentration [wt/wt%]": protein_concentration,
 
-                "Procedure - Physical Treatments - Right valve [bar]": right_valve,
-                "Procedure - Physical Treatments - Left valve 2 [bar]": left_valve,
-                "Procedure - Physical Treatments - Temp after HPH [°C]": temp_after_HPH,
-                "Procedure - Physical Treatments - HPH fraction [%]": HPH_fraction,
-                "Procedure - Physical Treatments - Initial water temp": initial_water_temp,
-                "Procedure - Physical Treatments - Mixing temp[°C]": mixing_temp,
-                "Procedure - Physical Treatments - Mixing time": mixing_time,
-                "Procedure - Physical Treatments - Heat treatment fraction[%]": heat_treatment_fraction,
-                "Procedure - Physical Treatments - pH": ph,
+                "Right valve [bar]": right_valve,
+                "Left valve 2 [bar]": left_valve,
+                "Temp after HPH [°C]": temp_after_HPH,
+                "HPH fraction [%]": HPH_fraction,
+                "Initial water temp": initial_water_temp,
+                "Mixing temp[°C]": mixing_temp,
+                "Mixing time": mixing_time,
+                "Heat treatment fraction[%]": heat_treatment_fraction,
+                "pH": ph,
 
-                "Black box ? + Procedure - Enzymes Hydrolyzing - Y/N": enz_YN,
-                "Black box ? + Procedure - Enzymes Hydrolyzing - Enz num.": enz_num,
-                "Black box ? + Procedure - Enzymes Hydrolyzing - Name": enz_name,
-                "Black box ? + Procedure - Enzymes Hydrolyzing - Concentration [%]": enz_concentration,
-                "Black box ? + Procedure - Enzymes Hydrolyzing - Added enz [g]": enz_added,
-                "Black box ? + Procedure - Enzymes Hydrolyzing - Addition temp [°C]": enz_addition_temp,
-                "Black box ? + Procedure - Enzymes Hydrolyzing - Ino. time [min]": enz_ino_time,
-                "Black box ? + Procedure - Enzymes Hydrolyzing - Ino. temp. [°C]": enz_ino_temp,
-                "Black box ? + Procedure - Enzymes Hydrolyzing - stirring [RPM]": enz_stirring,
-                "Black box ? + Procedure - Enzymes Hydrolyzing - black box protein fraction[%]": black_box_protein_fraction,
+                "Y/N": enz_YN,
+                "Enz num.": enz_num,
+                "Name": enz_name,
+                "Concentration [%]": enz_concentration,
+                "Added enz [g]": enz_added,
+                "Addition temp [°C]": enz_addition_temp,
+                "Ino. time [min]": enz_ino_time,
+                "Ino. temp. [°C]": enz_ino_temp,
+                "stirring [RPM]": enz_stirring,
+                "black box protein fraction[%]": black_box_protein_fraction,
 
-                "Procedure - Enzymes Crosslinking - Name": cross_enz_name,
-                "Procedure - Enzymes Crosslinking - Enz num.": cross_enz_num,
-                "Procedure - Enzymes Crosslinking - Concentration [%]": cross_enz_concentration,
-                "Procedure - Enzymes Crosslinking - Added enz [g]": cross_enz_added,
-                "Procedure - Enzymes Crosslinking - Addition temp [°C]": cross_enz_addition_temp,
-                "Procedure - Enzymes Crosslinking - Ino. time [min]": cross_enz_ino_time,
-                "Procedure - Enzymes Crosslinking - Ino. temp. [°C]": cross_enz_ino_temp,
-                "Procedure - Enzymes Crosslinking - stirring [RPM]": cross_enz_stirring,
+                "Crosslinker Name": cross_enz_name,
+                "Crosslinker Enz num.": cross_enz_num,
+                "Crosslinker Concentration [%]": cross_enz_concentration,
+                "Crosslinker Added enz [g]": cross_enz_added,
+                "Crosslinker Addition temp [°C]": cross_enz_addition_temp,
+                "Crosslinker Ino. time [min]": cross_enz_ino_time,
+                "Crosslinker Ino. temp. [°C]": cross_enz_ino_temp,
+                "Crosslinker stirring [RPM]": cross_enz_stirring,
             }
             st.session_state.experiment_data.append(form_data)
             st.success("Form saved successfully!")
@@ -202,14 +205,13 @@ def experiment_form():
             excel_buffer = io.BytesIO()
             with pd.ExcelWriter(excel_buffer, engine='openpyxl') as writer:
                 df.to_excel(writer, sheet_name=st.session_state.experiment_name or "Experiment", index=False)
-
             excel_buffer.seek(0)
 
             file_name = f"{st.session_state.experiment_name.replace(' ', '_')}_data.xlsx"
             try:
                 st.download_button(
                     label=f"Download {file_name}",
-                    data=excel_buffer,
+                    data=excel_buffer.getvalue(),
                     file_name=file_name,
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 )
