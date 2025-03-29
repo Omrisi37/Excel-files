@@ -37,10 +37,15 @@ def welcome_page():
 
     experiments = st.session_state.user_data[st.session_state.current_user]["experiments"]
     if experiments:
-        st.subheader("Your Saved Experiments")
-        for i, exp in enumerate(experiments):
+        st.subheader("My Experiments")
+        # Sort experiments by date
+        sorted_experiments = sorted(experiments, key=lambda x: x.get("date", datetime.now().isoformat()), reverse=True)
+
+        for i, exp in enumerate(sorted_experiments):
             exp_name = exp.get("experiment_name", f"Experiment {i + 1}")
-            if st.button(f"Edit {exp_name}", key=f"edit_{i}"):
+            exp_date = exp.get("date", datetime.now().isoformat())[:10]  # Extract just the date part
+
+            if st.button(f"Edit: {exp_name} (Date: {exp_date})", key=f"edit_{i}"):
                 st.session_state.experiment_name = exp_name
                 st.session_state.experiment_data = exp["rows"]
                 st.session_state.page = "experiment_form"
@@ -197,20 +202,25 @@ def experiment_form():
             excel_buffer = io.BytesIO()
             with pd.ExcelWriter(excel_buffer, engine='openpyxl') as writer:
                 df.to_excel(writer, sheet_name=st.session_state.experiment_name or "Experiment", index=False)
+
             excel_buffer.seek(0)
 
             file_name = f"{st.session_state.experiment_name.replace(' ', '_')}_data.xlsx"
-            st.download_button(
-                label=f"Download {file_name}",
-                data=excel_buffer,
-                file_name=file_name,
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
+            try:
+                st.download_button(
+                    label=f"Download {file_name}",
+                    data=excel_buffer,
+                    file_name=file_name,
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
+            except Exception as e:
+                st.error(f"Error creating/downloading Excel file: {e}")
 
         if st.button("Save Experiment"):
             experiment_data = {
                 "experiment_name": st.session_state.experiment_name,
                 "rows": st.session_state.experiment_data,
+                "date": datetime.now().isoformat()  # Save the current date
             }
             st.session_state.user_data[st.session_state.current_user]["experiments"].append(experiment_data)
             st.success("Experiment saved successfully!")
