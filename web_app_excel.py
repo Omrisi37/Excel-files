@@ -68,6 +68,65 @@ def update_experiment_in_db(exp_id, experiment_name, data):
     conn.commit()
     conn.close()
 
+# --- CSS STYLES ---
+def set_page_style():
+    st.markdown(
+        """
+        <style>
+            /* General styles */
+            body {
+                font-family: 'Roboto', sans-serif;
+                background-color: #f4f4f8;
+                color: #333;
+            }
+            .stApp {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            /* Titles */
+            h1, h2, h3, h4, h5, h6 {
+                color: #0056b3;
+            }
+            /* Buttons */
+            .stButton > button {
+                color: white;
+                background-color: #007bff;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            .stButton > button:hover {
+                background-color: #0056b3;
+                color: #fff;
+            }
+            /* Forms */
+            .stForm {
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            .stTextInput > label, .stNumberInput > label, .stSelectbox > label, .stDateInput > label {
+                color: #007bff;
+            }
+            /* Success and Error messages */
+            .stSuccess {
+                color: green;
+                font-weight: bold;
+            }
+            .stError {
+                color: red;
+                font-weight: bold;
+            }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+# --- PAGE FUNCTIONS ---
+
 def login_page():
     """Enhanced login page."""
     st.title("Welcome to the Lab Data Collection App")
@@ -305,6 +364,9 @@ def experiment_form():
 
 # Initialize database on startup
 init_db()
+
+# Set page style
+set_page_style()
 
 # Main app logic
 if st.session_state.page == "login":
