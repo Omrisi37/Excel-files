@@ -294,39 +294,104 @@ def experiment_form():
         with col2:
             drying_method = st.selectbox("Drying type", ["Freeze dry", "Spray dry","N/A"], key="drying_method")
 
-        # Gel Functionality Section
+                # Gel Functionality Section
         st.subheader("Gel Functionality")
-        col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
+        col1, col2, col3, col4, col5, col6, col7 = st.columns([1.5, 1.5, 1.5, 2, 2, 2, 2])
         with col1:
-            fresh_rehydrated = st.text_input("Fresh/rehydrated", placeholder="Enter value", key="fresh_rehydrated")
+            fresh_rehydrated = st.text_input(
+                "Fresh/rehydrated", 
+                placeholder="Enter value", 
+                key="fresh_rehydrated",
+                help="Specify whether the gel is fresh or rehydrated."
+            )
         with col2:
-            added_protein = st.text_input("Added protein?", placeholder="Number (if used) or N/A", key="added_protein")
+            added_protein = st.text_input(
+                "Added protein?", 
+                placeholder="Number (if used) or N/A", 
+                key="added_protein",
+                help="Enter the amount of added protein or specify 'N/A'."
+            )
         with col3:
-            added_protein_type = st.text_input("Added protein type", placeholder="Type (if used) or N/A", key="added_protein_type")
+            added_protein_type = st.text_input(
+                "Added protein type", 
+                placeholder="Type (if used) or N/A", 
+                key="added_protein_type",
+                help="Specify the type of added protein or 'N/A'."
+            )
         with col4:
-            meal_water_ratio = st.text_input("Meal:water:added protein ratio", placeholder="Ratio (if used) or N/A", key="meal_water_ratio")
+            meal_water_ratio = st.text_input(
+                "Meal:water:added protein ratio", 
+                placeholder="Ratio (if used) or N/A", 
+                key="meal_water_ratio",
+                help="Provide the ratio of meal to water to added protein."
+            )
         with col5:
-            rehydration_equipment = st.text_input("Rehydration equipment", placeholder="Enter equipment", key="rehydration_equipment")
+            rehydration_equipment = st.text_input(
+                "Rehydration equipment", 
+                placeholder="Enter equipment", 
+                key="rehydration_equipment",
+                help="Specify the equipment used for rehydration."
+            )
         with col6:
-            stress_max_load = st.text_input("Stress at Maximum Load (KPa)", placeholder="Insert average stress", key="stress_max_load")
+            stress_max_load = st.text_input(
+                "Stress at Maximum Load (KPa)", 
+                placeholder="Insert average stress", 
+                key="stress_max_load",
+                help="Enter the average stress at maximum load in KPa."
+            )
         with col7:
-            strain_max_load = st.text_input("Percentage Strain at Maximum Load", placeholder="Insert average strain", key="strain_max_load")
+            strain_max_load = st.text_input(
+                "Percentage Strain at Maximum Load", 
+                placeholder="Insert average strain", 
+                key="strain_max_load",
+                help="Enter the average strain percentage at maximum load."
+            )
         
         # TPA & Sensory Tests Section
         st.subheader("TPA & Sensory Tests")
-        col1, col2, col3, col4, col5, col6 = st.columns(6)
+        col1, col2, col3, col4, col5, col6 = st.columns([1.5, 1.5, 1.5, 1.5, 1.5, 1.5])
         with col1:
-            tpa1 = st.text_input("TPA1", placeholder="Enter TPA1 value", key="tpa1")
+            tpa1 = st.text_input(
+                "TPA1", 
+                placeholder="Enter TPA1 value", 
+                key="tpa1",
+                help="Enter the first TPA (Texture Profile Analysis) value."
+            )
         with col2:
-            tpa = st.text_input("TPA", placeholder="Enter TPA value", key="tpa")
+            tpa = st.text_input(
+                "TPA", 
+                placeholder="Enter TPA value", 
+                key="tpa",
+                help="Enter the second TPA (Texture Profile Analysis) value."
+            )
         with col3:
-            chewiness = st.text_input("Chewiness", placeholder="Enter chewiness value", key="chewiness")
+            chewiness = st.text_input(
+                "Chewiness", 
+                placeholder="Enter chewiness value", 
+                key="chewiness",
+                help="Provide a chewiness score based on sensory analysis."
+            )
         with col4:
-            hardness = st.text_input("Hardness", placeholder="Enter hardness value", key="hardness")
+            hardness = st.text_input(
+                "Hardness", 
+                placeholder="Enter hardness value", 
+                key="hardness",
+                help="Provide a hardness score based on sensory analysis."
+            )
         with col5:
-            juiciness = st.text_input("Juiciness", placeholder="Enter juiciness value", key="juiciness")
+            juiciness = st.text_input(
+                "Juiciness", 
+                placeholder="Enter juiciness value", 
+                key="juiciness",
+                help="Provide a juiciness score based on sensory analysis."
+            )
         with col6:
-            mushiness = st.text_input("Mushiness", placeholder="Enter mushiness value", key="mushiness")
+            mushiness = st.text_input(
+                "Mushiness", 
+                placeholder="Enter mushiness value", 
+                key="mushiness",
+                help="Provide a mushiness score based on sensory analysis."
+            )
 
         if st.form_submit_button("Save Form"):
             form_data = {
