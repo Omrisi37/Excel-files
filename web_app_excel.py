@@ -5,7 +5,7 @@ import sqlite3
 from datetime import datetime
 import io
 
-# Initialize session state for user data
+# --- SESSION STATE INITIALIZATION ---
 if 'current_user' not in st.session_state:
     st.session_state.current_user = None
 
@@ -15,7 +15,7 @@ if 'page' not in st.session_state:
 if 'experiment_data' not in st.session_state:
     st.session_state.experiment_data = []
 
-# Database setup
+# --- DATABASE SETUP ---
 DB_FILE = "experiments.db"
 
 def init_db():
@@ -76,49 +76,69 @@ def set_page_style():
             /* General styles */
             body {
                 font-family: 'Roboto', sans-serif;
-                background-color: #f4f4f8;
+                background: linear-gradient(to right, #4A90E2, #63B8FF); /* Gradient background */
                 color: #333;
+                margin: 0;
+                padding: 0;
             }
             .stApp {
                 max-width: 1200px;
-                margin: 0 auto;
+                margin: 20px auto;
                 padding: 20px;
+                background: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+                border-radius: 15px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             }
             /* Titles */
             h1, h2, h3, h4, h5, h6 {
                 color: #0056b3;
+                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
             }
             /* Buttons */
             .stButton > button {
                 color: white;
-                background-color: #007bff;
+                background: linear-gradient(to bottom, #007bff, #0056b3);
                 border: none;
                 padding: 10px 20px;
-                border-radius: 5px;
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
                 cursor: pointer;
+                transition: transform 0.2s;
             }
             .stButton > button:hover {
-                background-color: #0056b3;
-                color: #fff;
+                background: linear-gradient(to bottom, #0056b3, #003380);
+                transform: translateY(-2px);
             }
             /* Forms */
             .stForm {
-                background-color: #fff;
+                background: rgba(255, 255, 255, 0.85);
                 padding: 20px;
-                border-radius: 10px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                border-radius: 12px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+                backdrop-filter: blur(10px); /* Glass effect */
             }
             .stTextInput > label, .stNumberInput > label, .stSelectbox > label, .stDateInput > label {
                 color: #007bff;
+                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
             }
-            /* Success and Error messages */
+            /* Messages */
             .stSuccess {
                 color: green;
                 font-weight: bold;
+                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
             }
             .stError {
                 color: red;
                 font-weight: bold;
+                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            }
+            /* Animations */
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .stApp * {
+                animation: fadeIn 0.5s ease-out;
             }
         </style>
         """,
@@ -152,7 +172,7 @@ def login_page():
 def welcome_page():
     """Improved welcome page."""
     st.title(f"Welcome, {st.session_state.current_user}")
-    st.markdown(f"Start collecting your expirments data")
+
     experiment_type = st.selectbox("Choose Experiment Type", ["Type 1"], key="experiment_type_select")
 
     # Fetch experiments from DB
