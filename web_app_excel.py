@@ -152,7 +152,7 @@ def login_page():
 def welcome_page():
     """Improved welcome page."""
     st.title(f"Welcome, {st.session_state.current_user}")
-
+    st.markdown(f"Start collecting your expirments data")
     experiment_type = st.selectbox("Choose Experiment Type", ["Type 1"], key="experiment_type_select")
 
     # Fetch experiments from DB
