@@ -31,6 +31,7 @@ def init_db():
         CREATE TABLE IF NOT EXISTS experiments (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             email TEXT,
+            experiment_type TEXT,
             experiment_name TEXT,
             date TEXT,
             data TEXT,
@@ -40,12 +41,12 @@ def init_db():
     conn.commit()
     conn.close()
 
-def save_experiment_to_db(email, experiment_name, date, data):
+def save_experiment_to_db(email, experiment_type, experiment_name, date, data):
     """Save experiment data to the database."""
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO experiments (email, experiment_name, date, data) VALUES (?, ?, ?, ?)", 
-                   (email, experiment_name, date, data))
+    cursor.execute("INSERT INTO experiments (email, experiment_type, experiment_name, date, data) VALUES (?, ?, ?, ?, ?)", 
+                   (email, experiment_type, experiment_name, date, data))
     conn.commit()
     conn.close()
 
@@ -53,7 +54,7 @@ def get_experiments_from_db(email):
     """Retrieve all experiments for a specific user."""
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
-    cursor.execute("SELECT id, experiment_name, date, data FROM experiments WHERE email = ?", (email,))
+    cursor.execute("SELECT id, experiment_type, experiment_name, date, data FROM experiments WHERE email = ?", (email,))
     experiments = cursor.fetchall()
     conn.close()
     return experiments
@@ -93,22 +94,23 @@ def welcome_page():
     """Improved welcome page."""
     st.title(f"Welcome, {st.session_state.current_user}")
 
-    # Fetch experiments from DB
+    experiment_type = st.selectbox("Choose Experiment Type", ["Type 1"], key="experiment_type_select")
+
     experiments = get_experiments_from_db(st.session_state.current_user)
-    
     if experiments:
         st.subheader("My Experiments")
-        for exp_id, exp_name, exp_date, exp_data in sorted(experiments, key=lambda x: x[2], reverse=True):
-            if st.button(f"Edit: {exp_name} (Date: {exp_date})", key=f"edit_{exp_id}"):
-                # Load experiment into session state for editing
+        for exp_id, exp_type, exp_name, exp_date, exp_data in sorted(experiments, key=lambda x: x[3], reverse=True):
+            if st.button(f"Edit: {exp_name} ({exp_type}, Date: {exp_date})", key=f"edit_{exp_id}"):
                 st.session_state.experiment_id = exp_id
+                st.session_state.experiment_type = exp_type
                 st.session_state.experiment_name = exp_name
                 st.session_state.experiment_data = eval(exp_data)  # Convert string back to Python object
                 st.session_state.page = "experiment_form"
                 st.rerun()
 
     if st.button("Start New Experiment"):
-        st.session_state.experiment_id = None  # New experiment has no ID yet
+        st.session_state.experiment_id = None
+        st.session_state.experiment_type = experiment_type
         st.session_state.experiment_name = ""
         st.session_state.experiment_data = []
         st.session_state.page = "experiment_form"
@@ -116,7 +118,7 @@ def welcome_page():
 
 def experiment_form():
     """Form to collect experiment details."""
-    st.title("Experiment Type 1 Data Collection")
+    st.title(f"Experiment {st.session_state.experiment_type} Data Collection")
 
     if st.button("Back to Home", key="back_home"):
         st.session_state.page = "welcome"
@@ -154,7 +156,7 @@ def experiment_form():
             initial_water_temp = st.text_input("Initial water temp", placeholder="Number (If used) or N/A", key="initial_water_temp")
         with col2:
             acid_name = st.text_input("Acid name", placeholder="Name (If used) or N/A", key="acid_name")
-
+        
         col1, col2 = st.columns(2)
         with col1:
             mixing_temp = st.text_input("Mixing temp[°C]", placeholder="Number (If used) or N/A", key="mixing_temp")
@@ -192,7 +194,9 @@ def experiment_form():
         black_box_protein_fraction = st.text_input("black box protein fraction[%]", placeholder="Number (If used) or N/A", key="black_box_protein_fraction")
 
         st.subheader("Procedure - Enzymes Crosslinking")
-        cross_enz_name = st.selectbox("Name", ["Crosslinker X", "Crosslinker Y"], key="cross_enz_name")
+        col1, col2 = st.columns(2)
+        with col1:
+            cross_enz_name = st.selectbox("Name", ["Crosslinker X", "Crosslinker Y"], key="cross_enz_name")
 
         col1, col2 = st.columns(2)
         with col1:
@@ -282,7 +286,7 @@ def experiment_form():
                 update_experiment_in_db(st.session_state.experiment_id, experiment_name, serialized_data)
                 st.success(f"Experiment '{experiment_name}' updated successfully!")
             else:
-                save_experiment_to_db(st.session_state.current_user, experiment_name, datetime.now().isoformat(), serialized_data)
+                save_experiment_to_db(st.session_state.current_user, st.session_state.experiment_type, experiment_name, datetime.now().isoformat(), serialized_data)
                 st.success(f"Experiment '{experiment_name}' saved successfully!")
             
             # Navigate back to home page after saving
