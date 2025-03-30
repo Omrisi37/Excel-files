@@ -278,10 +278,21 @@ def experiment_form():
 
         col1, col2 = st.columns(2)
         with col1:
-            cross_enz_ino_time = st.text_input("Ino. time [min]", placeholder="Number (If used) or N/A", key="cross_enz_ino_time")
+            cross_enz_ino_time = st.text_input("Inc. time [min]", placeholder="Number (If used) or N/A", key="cross_enz_ino_time")
         with col2:
-            cross_enz_ino_temp = st.text_input("Ino. temp. [°C]", placeholder="Number (If used) or N/A", key="cross_enz_ino_temp")
+            cross_enz_ino_temp = st.text_input("Inc. temp. [°C]", placeholder="Number (If used) or N/A", key="cross_enz_ino_temp")
         cross_enz_stirring = st.text_input("stirring [RPM]", placeholder="Number (If used) or N/A", key="cross_enz_stirring")
+
+        st.subheader("Gel / Drying process")
+        col1, col2 = st.columns(2)
+        with col1:
+            gel_or_drying = st.selectbox("G/D", ["Drying", "Gel"], key="gel_or_drying")
+
+        col1, col2 = st.columns(2)
+        with col1:
+           o_n_incubation = st.selectbox("o.n incubation at 4 °C (Y/N)", ["Yes", "No"], key="o_n_incubation")
+        with col2:
+            drying_method = st.selectbox("Drying type", ["Freeze dry", "Spray dry","N/A"], key="drying_method")
 
         if st.form_submit_button("Save Form"):
             form_data = {
