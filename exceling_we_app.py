@@ -96,7 +96,13 @@ def welcome_page():
 
     experiment_type = st.selectbox("Choose Experiment Type", ["Type 1"], key="experiment_type_select")
 
-    experiments = get_experiments_from_db(st.session_state.current_user)
+    # Fetch experiments from DB
+    try:
+        experiments = get_experiments_from_db(st.session_state.current_user)
+    except sqlite3.Error as e:
+        st.error(f"Database error: {e}")
+        return
+
     if experiments:
         st.subheader("My Experiments")
         for exp_id, exp_type, exp_name, exp_date, exp_data in sorted(experiments, key=lambda x: x[3], reverse=True):
