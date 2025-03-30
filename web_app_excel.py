@@ -76,69 +76,51 @@ def set_page_style():
             /* General styles */
             body {
                 font-family: 'Roboto', sans-serif;
-                background: linear-gradient(to right, #4A90E2, #63B8FF); /* Gradient background */
+                background-color: #f5f6fa; /* Light background color */
                 color: #333;
                 margin: 0;
                 padding: 0;
             }
             .stApp {
-                max-width: 1200px;
+                max-width: 1400px;
                 margin: 20px auto;
                 padding: 20px;
-                background: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
-                border-radius: 15px;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                background-color: #ffffff; /* White background */
+                border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            }
+            /* Sidebar styles */
+            .css-1adrbqk {
+                background-color: #f0f2f6; /* Sidebar background color */
+                padding: 20px;
+                border-radius: 10px;
             }
             /* Titles */
             h1, h2, h3, h4, h5, h6 {
-                color: #0056b3;
-                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+                color: #37474f; /* Dark gray for titles */
             }
             /* Buttons */
             .stButton > button {
-                color: white;
-                background: linear-gradient(to bottom, #007bff, #0056b3);
+                color: #ffffff; /* White text */
+                background-color: #007bff; /* Primary blue color */
                 border: none;
                 padding: 10px 20px;
-                border-radius: 8px;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                border-radius: 5px;
                 cursor: pointer;
-                transition: transform 0.2s;
+                transition: background-color 0.3s ease;
             }
             .stButton > button:hover {
-                background: linear-gradient(to bottom, #0056b3, #003380);
-                transform: translateY(-2px);
+                background-color: #0056b3; /* Darker blue on hover */
             }
             /* Forms */
             .stForm {
-                background: rgba(255, 255, 255, 0.85);
+                background-color: #ffffff; /* White form background */
                 padding: 20px;
-                border-radius: 12px;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-                backdrop-filter: blur(10px); /* Glass effect */
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle form shadow */
             }
             .stTextInput > label, .stNumberInput > label, .stSelectbox > label, .stDateInput > label {
-                color: #007bff;
-                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-            }
-            /* Messages */
-            .stSuccess {
-                color: green;
-                font-weight: bold;
-                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-            }
-            .stError {
-                color: red;
-                font-weight: bold;
-                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-            }
-            /* Animations */
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(-20px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-            .stApp * {
-                animation: fadeIn 0.5s ease-out;
+                color: #37474f; /* Dark gray labels */
             }
         </style>
         """,
@@ -146,7 +128,6 @@ def set_page_style():
     )
 
 # --- PAGE FUNCTIONS ---
-
 def login_page():
     """Enhanced login page."""
     st.title("Welcome to the Lab Data Collection App")
