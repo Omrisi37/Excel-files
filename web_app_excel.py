@@ -294,6 +294,40 @@ def experiment_form():
         with col2:
             drying_method = st.selectbox("Drying type", ["Freeze dry", "Spray dry","N/A"], key="drying_method")
 
+        # Gel Functionality Section
+        st.subheader("Gel Functionality")
+        col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
+        with col1:
+            fresh_rehydrated = st.text_input("Fresh/rehydrated", placeholder="Enter value", key="fresh_rehydrated")
+        with col2:
+            added_protein = st.text_input("Added protein?", placeholder="Number (if used) or N/A", key="added_protein")
+        with col3:
+            added_protein_type = st.text_input("Added protein type", placeholder="Type (if used) or N/A", key="added_protein_type")
+        with col4:
+            meal_water_ratio = st.text_input("Meal:water:added protein ratio", placeholder="Ratio (if used) or N/A", key="meal_water_ratio")
+        with col5:
+            rehydration_equipment = st.text_input("Rehydration equipment", placeholder="Enter equipment", key="rehydration_equipment")
+        with col6:
+            stress_max_load = st.text_input("Stress at Maximum Load (KPa)", placeholder="Insert average stress", key="stress_max_load")
+        with col7:
+            strain_max_load = st.text_input("Percentage Strain at Maximum Load", placeholder="Insert average strain", key="strain_max_load")
+        
+        # TPA & Sensory Tests Section
+        st.subheader("TPA & Sensory Tests")
+        col1, col2, col3, col4, col5, col6 = st.columns(6)
+        with col1:
+            tpa1 = st.text_input("TPA1", placeholder="Enter TPA1 value", key="tpa1")
+        with col2:
+            tpa = st.text_input("TPA", placeholder="Enter TPA value", key="tpa")
+        with col3:
+            chewiness = st.text_input("Chewiness", placeholder="Enter chewiness value", key="chewiness")
+        with col4:
+            hardness = st.text_input("Hardness", placeholder="Enter hardness value", key="hardness")
+        with col5:
+            juiciness = st.text_input("Juiciness", placeholder="Enter juiciness value", key="juiciness")
+        with col6:
+            mushiness = st.text_input("Mushiness", placeholder="Enter mushiness value", key="mushiness")
+
         if st.form_submit_button("Save Form"):
             form_data = {
                 "#Num": procedure_num,
